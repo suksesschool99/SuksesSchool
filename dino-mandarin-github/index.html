@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Website Pembelajaran Bahasa Mandarin Interaktif bertema Little Dinosaurus. Latihan menulis guratan 3-5x repetisi, game mencocokkan kosakata bergambar, dan kuis jumlah guratan dari PDF Han Yu 1 sampai Han Yu 12.">
+  <title>🦕 Dino Mandarin Adventure - Belajar Han Yu 1 s/d 12</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- HanziWriter Engine CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       1. Header & Navigation Top
+       ======================================================================== -->
+  <header class="dino-header">
+    <div class="header-container">
+      <div class="logo-brand">
+        <span class="brand-dino-avatar">🦖</span>
+        <div class="brand-title-wrap">
+          <h1 class="brand-main-title">DINO MANDARIN ADVENTURE</h1>
+          <span class="brand-sub-title">Kurikulum Buku Han Yu 1 s/d Han Yu 12 🌿</span>
+        </div>
+      </div>
+
+      <div class="header-audio-controls">
+        <button class="audio-toggle-btn" id="btn-toggle-voice" title="Nyalakan/Matikan Suara Pelafalan Mandarin">
+          🗣️ Suara Mandarin: ON
+        </button>
+        <button class="audio-toggle-btn" id="btn-toggle-sfx" title="Nyalakan/Matikan Efek Suara Permainan">
+          🔊 Efek Suara: ON
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       2. Navigation Module Tabs
+       ======================================================================== -->
+  <nav class="nav-tabs-bar" aria-label="Menu Utama Modul Belajar">
+    <div class="tabs-container">
+      <button class="nav-tab-btn active" data-target="module-stroke" id="tab-btn-stroke">
+        <span class="tab-icon">✍️</span>
+        <span class="tab-label">1. Tulis Guratan (3-5x)</span>
+      </button>
+
+      <button class="nav-tab-btn" data-target="module-match" id="tab-btn-match">
+        <span class="tab-icon">🧩</span>
+        <span class="tab-label">2. Cocokkan Gambar & Kata</span>
+      </button>
+
+      <button class="nav-tab-btn" data-target="module-quiz" id="tab-btn-quiz">
+        <span class="tab-icon">📝</span>
+        <span class="tab-label">3. Kuis Jumlah Guratan</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       3. Main Content Sections
+       ======================================================================== -->
+  <main class="main-content">
+
+    <!-- ----------------------------------------------------------------------
+         MODUL 1: LATIHAN MENULIS GURATAN HANZI (HAN YU 1 - 12 & REPETISI 3-5X)
+         ---------------------------------------------------------------------- -->
+    <section class="app-module-section active" id="module-stroke" aria-labelledby="heading-stroke">
+      <div class="module-header-banner">
+        <div class="module-title-box">
+          <div class="module-title-icon">🦕</div>
+          <div>
+            <h2 class="module-heading" id="heading-stroke">Latihan Menulis Guratan Hanzi (Stroke Writing Practice)</h2>
+            <p class="module-desc">Pilih unit buku Han Yu 1 s/d 12 dan latih guratan 3 sampai 5 kali hingga telur dino menetas!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curriculum & Repetition Selector Bar -->
+      <div class="curriculum-selector-bar">
+        <div class="selector-group">
+          <!-- Pilih Buku Han Yu -->
+          <div class="filter-select-item">
+            <label for="stroke-book-select" class="filter-label">📖 Buku:</label>
+            <select id="stroke-book-select" class="dino-select-primary">
+              <!-- Populated via JS (Han Yu 1 - 12) -->
+            </select>
+          </div>
+
+          <!-- Pilih Unit -->
+          <div class="filter-select-item">
+            <label for="stroke-unit-select" class="filter-label">📑 Unit:</label>
+            <select id="stroke-unit-select" class="dino-select-primary">
+              <!-- Populated via JS -->
+            </select>
+          </div>
+
+          <!-- Target Repetisi (3-5x) -->
+          <div class="filter-select-item">
+            <label for="stroke-reps-target" class="filter-label">🎯 Target Latihan:</label>
+            <select id="stroke-reps-target" class="dino-select-primary">
+              <option value="3" selected>3 Kali Tulis (Standard)</option>
+              <option value="4">4 Kali Tulis (Tantangan)</option>
+              <option value="5">5 Kali Tulis (Master Dino)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Visual Telur Dinosaurus Tracker -->
+        <div class="reps-tracker-bar">
+          <span class="reps-tracker-label">Progres Telur:</span>
+          <div class="reps-egg-tracker" id="reps-egg-tracker">
+            <span class="egg-item active-cracking">🥚✨</span>
+            <span class="egg-item unhatched">🥚</span>
+            <span class="egg-item unhatched">🥚</span>
+          </div>
+          <span class="reps-count-text" id="reps-count-text">0 / 3 Kali</span>
+        </div>
+      </div>
+
+      <!-- Banner Sukses Repetisi Menetas -->
+      <div class="rep-success-banner" id="rep-success-banner" style="display: none;">
+        <!-- Rendered via JS -->
+      </div>
+
+      <div class="stroke-module-grid">
+        <!-- Canvas & Kontrol Utama -->
+        <div class="stroke-canvas-card" id="stroke-card-wrapper">
+          <!-- Info Karakter di Samping / Atas Kanvas -->
+          <div class="char-hero-info">
+            <div class="char-pinyin-wrap">
+              <span class="char-pinyin-big" id="char-pinyin">yī</span>
+              <span class="char-meaning-badge" id="char-meaning">Satu (1)</span>
+              <span class="char-book-badge" id="char-book-unit-badge">Han Yu 1 • Unit 1</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="char-strokes-meta" id="char-strokes-count">1 Guratan</span>
+              <button class="dino-btn-audio-circle" id="btn-char-audio" title="Dengarkan Pelafalan Mandarin">🔊</button>
+            </div>
+          </div>
+
+          <!-- Status Indikator -->
+          <div style="margin-top: 14px; width: 100%; text-align: center;">
+            <div class="status-badge status-ready" id="stroke-status-badge">
+              ✍️ Mode Latihan: Tulis guratan di atas kotak!
+            </div>
+          </div>
+
+          <!-- Target Canvas HanziWriter -->
+          <div class="stroke-target-wrapper grid-mizige" id="stroke-target"></div>
+
+          <!-- Toolbar Kontrol -->
+          <div class="stroke-controls-toolbar">
+            <button class="dino-btn primary-btn" id="btn-practice-stroke">
+              <span>✍️</span> Latihan Tulis
+            </button>
+            <button class="dino-btn secondary-btn" id="btn-animate-stroke">
+              <span>🎬</span> Putar Animasi
+            </button>
+            <button class="dino-btn outline-btn" id="btn-stroke-hint">
+              <span>💡</span> Petunjuk
+            </button>
+            <button class="dino-btn outline-btn" id="btn-stroke-reset">
+              <span>🔄</span> Ulangi
+            </button>
+          </div>
+
+          <!-- Pengaturan Tambahan -->
+          <div class="stroke-settings-row">
+            <div class="setting-item">
+              <label for="stroke-speed-select">⚡ Kecepatan:</label>
+              <select id="stroke-speed-select" class="dino-select">
+                <option value="0.6">Lambat (0.6x)</option>
+                <option value="1.0" selected>Normal (1.0x)</option>
+                <option value="1.6">Cepat (1.6x)</option>
+              </select>
+            </div>
+
+            <div class="setting-item">
+              <label for="stroke-grid-select">📐 Garis Bantu:</label>
+              <select id="stroke-grid-select" class="dino-select">
+                <option value="mizige" selected>米字格 (Bintang)</option>
+                <option value="tianzige">田字格 (Kotak 4)</option>
+                <option value="plain">Polos</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sisi Kanan: Navigasi, Tips & Daftar Kosakata Unit -->
+        <div class="stroke-side-panel">
+          <!-- Navigasi Cepat Karakter Sebelumnya / Berikutnya -->
+          <div class="char-nav-card">
+            <h3 class="card-subheading"><span>🐾</span> Navigasi Karakter Unit</h3>
+            <div style="display: flex; gap: 10px;">
+              <button class="dino-btn outline-btn" id="btn-prev-char" style="flex: 1; padding: 8px 12px;">◀ Sebelumnya</button>
+              <button class="dino-btn primary-btn" id="btn-next-char" style="flex: 1; padding: 8px 12px;">Berikutnya ▶</button>
+            </div>
+          </div>
+
+          <!-- Tips Dino -->
+          <div class="dino-mascot-tip-card">
+            <span class="mascot-tip-avatar">🦖</span>
+            <div class="char-dino-tip-txt" id="char-dino-tip">
+              Tips Brachy: Satu garis mendatar (横) dari kiri ke kanan.
+            </div>
+          </div>
+
+          <!-- Pencarian Bebas Hanzi -->
+          <div class="custom-input-card">
+            <h3 class="card-subheading"><span>🔍</span> Ketik Hanzi Kustom</h3>
+            <div class="custom-input-form">
+              <input type="text" id="custom-char-input" class="dino-input" placeholder="Contoh: 你, 好, 友, 恐..." maxlength="10">
+              <button class="dino-btn secondary-btn" id="btn-search-char">Buka ➔</button>
+            </div>
+          </div>
+
+          <!-- Pilihan Karakter Dalam Unit -->
+          <div class="char-picker-card">
+            <h3 class="card-subheading"><span>📚</span> Kosakata Dalam Unit Ini</h3>
+            <div class="stroke-chips-scroll" id="stroke-char-chips">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------
+         MODUL 2: GAME MENCOCOKKAN KOSAKATA DENGAN GAMBAR
+         ---------------------------------------------------------------------- -->
+    <section class="app-module-section" id="module-match" aria-labelledby="heading-match">
+      <div class="module-header-banner">
+        <div class="module-title-box">
+          <div class="module-title-icon">🥚</div>
+          <div>
+            <h2 class="module-heading" id="heading-match">Mencocokkan Kosakata dengan Gambar (Dino Match)</h2>
+            <p class="module-desc">Buka pasangan kartu gambar dan Hanzi + Pinyin. Saat cocok, arti bahasa Indonesia dan pelafalan audio akan terbuka!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="match-game-container">
+        <!-- Bar Status Game & Filter Buku -->
+        <div class="match-stats-bar">
+          <div class="stats-group">
+            <div class="stat-pill">
+              <span>🏆 Skor:</span>
+              <span class="stat-val" id="match-score">0</span>
+            </div>
+            <div class="stat-pill">
+              <span>👣 Langkah:</span>
+              <span class="stat-val" id="match-moves">0</span>
+            </div>
+            <div class="stat-pill">
+              <span>⏱️ Waktu:</span>
+              <span class="stat-val" id="match-timer">0:00</span>
+            </div>
+            <div class="stat-pill">
+              <span>🔥 Kombo:</span>
+              <span class="stat-val" id="match-streak">-</span>
+            </div>
+          </div>
+
+          <div class="difficulty-picker">
+            <div class="filter-select-item" style="margin-right: 6px;">
+              <select id="match-book-select" class="dino-select-primary" style="padding: 6px 12px; font-size: 0.85rem;">
+                <!-- Populated via JS -->
+              </select>
+            </div>
+            <button class="diff-btn active" data-pairs="4">Bayi Dino (4 Pasang)</button>
+            <button class="diff-btn" data-pairs="6">Pemburu Fosil (6 Pasang)</button>
+            <button class="diff-btn" data-pairs="8">Raja Rimba (8 Pasang)</button>
+            <button class="dino-btn outline-btn" id="btn-match-restart" style="padding: 6px 14px; font-size: 0.88rem;">
+              🔄 Acak Kartu
+            </button>
+          </div>
+        </div>
+
+        <!-- Papan Kartu Grid -->
+        <div class="match-board-grid grid-pairs-4" id="match-board">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- Pop-up Toast Notifikasi Sukses Jawaban Benar (Gambar + Hanzi + Pinyin + Arti Lengkap) -->
+      <div class="match-toast-container" id="match-success-toast">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Modal Kemenangan Game Match -->
+      <div class="dino-modal-overlay" id="match-win-modal">
+        <div class="dino-modal-box">
+          <div class="modal-dino-hatch">🦖🎉</div>
+          <h3 class="modal-title">Telur Dinosaurus Telah Menetas!</h3>
+          <p style="color: var(--dino-text-muted); font-size: 1rem; font-weight: 600;">
+            Hebat sekali! Kamu berhasil mencocokkan semua kosakata Mandarin dengan sempurna!
+          </p>
+
+          <div class="modal-summary-grid">
+            <div class="summary-stat-card">
+              <div class="stat-lbl">Total Skor</div>
+              <div class="stat-num" id="win-final-score">500</div>
+            </div>
+            <div class="summary-stat-card">
+              <div class="stat-lbl">Langkah</div>
+              <div class="stat-num" id="win-final-moves">8</div>
+            </div>
+            <div class="summary-stat-card">
+              <div class="stat-lbl">Waktu</div>
+              <div class="stat-num" id="win-final-time">0m 45d</div>
+            </div>
+          </div>
+
+          <!-- Ringkasan Kosakata Bergambar yang Berhasil Dicocokkan -->
+          <div class="win-matched-container">
+            <h4 class="win-matched-title">📚 Kosakata yang Kamu Kuasai:</h4>
+            <div class="win-matched-vocab-list" id="win-matched-vocab-list">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <button class="dino-btn secondary-btn" id="btn-match-play-again" style="font-size: 1.1rem; padding: 12px 28px;">
+            🎮 Main Lagi ➔
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------
+         MODUL 3: KUIS JUMLAH GURATAN (1, 3, 4, 5, 6, 7, 11) & HAN YU 1 - 12
+         ---------------------------------------------------------------------- -->
+    <section class="app-module-section" id="module-quiz" aria-labelledby="heading-quiz">
+      <div class="module-header-banner">
+        <div class="module-title-box">
+          <div class="module-title-icon">🦖</div>
+          <div>
+            <h2 class="module-heading" id="heading-quiz">Kuis Jumlah Guratan & Kosakata Han Yu 1 s/d 12</h2>
+            <p class="module-desc">Uji pengetahuan jumlah guratan Hanzi (hitungan 1, 3, 4, 5, 6, 7, 11) dan kosakata dari buku Han Yu!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-wrapper">
+        <!-- Filter Kategori Kuis -->
+        <div class="quiz-filter-bar">
+          <div class="filter-select-item">
+            <label for="quiz-filter-select" class="filter-label">🎯 Pilihan Mode Kuis:</label>
+            <select id="quiz-filter-select" class="dino-select-primary">
+              <!-- Populated via JS -->
+            </select>
+          </div>
+          <div style="font-size: 0.9rem; font-weight: 700; color: var(--dino-green-deep);">
+            🐾 Dinosaurus Footprints Tracker
+          </div>
+        </div>
+
+        <!-- Tracker Jejak Kaki Dinosaurus -->
+        <div class="footprints-timeline-card">
+          <div class="footprints-row" id="dino-footprints">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+        <!-- Kartu Pertanyaan Aktif -->
+        <div class="quiz-main-card" id="quiz-active-card">
+          <div class="quiz-meta-header">
+            <div class="quiz-q-indicator">
+              <span>🐾 Soal</span> <span id="quiz-q-num">1</span> dari <span id="quiz-total-q">10</span>
+            </div>
+            <div class="quiz-score-indicator" id="quiz-score-badge">
+              Skor: 0
+            </div>
+          </div>
+
+          <h3 class="question-text-banner" id="quiz-question-text">
+            Pertanyaan kuis sedang dimuat...
+          </h3>
+
+          <!-- Media Display Pertanyaan (Hanzi Besar / Gambar / Target Guratan) -->
+          <div class="question-media-wrap" id="quiz-question-media">
+            <!-- Rendered via JS -->
+          </div>
+
+          <!-- Pilihan Jawaban (A, B, C, D) -->
+          <div class="quiz-options-grid" id="quiz-options-grid">
+            <!-- Rendered via JS -->
+          </div>
+
+          <!-- Penjelasan Jawaban & Urutan Guratan Langkah demi Langkah -->
+          <div class="quiz-explanation-box" id="quiz-explanation-card" style="display: none;">
+            <div id="quiz-explanation-text"></div>
+          </div>
+
+          <!-- Maskot Mood Reaction -->
+          <div class="quiz-mascot-reaction" id="quiz-mascot-box">
+            <div class="mascot-avatar">🦖</div>
+            <div class="mascot-speech">Ayo petualang, pilih jawaban yang paling tepat!</div>
+          </div>
+
+          <!-- Tombol Lanjut -->
+          <div class="quiz-action-row">
+            <button class="dino-btn primary-btn" id="btn-next-question" style="display: none; font-size: 1.1rem; padding: 12px 28px;">
+              Soal Berikutnya ➔
+            </button>
+          </div>
+        </div>
+
+        <!-- Kartu Rapor Hasil Akhir Kuis -->
+        <div class="quiz-result-wrapper" id="quiz-result-card" style="display: none;">
+          <div class="result-dino-trophy">🏆🦖</div>
+          <h3 class="result-heading">Rapor Petualang Dinosaurus</h3>
+          <div class="result-rating-stars" id="quiz-final-rating">⭐⭐⭐</div>
+          <div class="result-rank-title" id="quiz-final-title">Raja Rimba Dinosaurus Hanzi</div>
+          <div>
+            <span class="result-score-highlight" id="quiz-final-score">100 / 100</span>
+          </div>
+          <p class="result-detail-text" id="quiz-final-detail">
+            Luar biasa! Kamu telah menguasai jumlah guratan dan kosakata Bahasa Mandarin dengan sangat baik!
+          </p>
+
+          <!-- Review Pembahasan Seluruh Soal -->
+          <div class="quiz-review-section">
+            <h4 class="review-section-title">📝 Evaluasi Pembahasan Kuis:</h4>
+            <div class="quiz-review-list" id="quiz-review-list">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <button class="dino-btn secondary-btn" id="btn-restart-quiz" style="font-size: 1.1rem; padding: 12px 28px;">
+            🔄 Ulangi Kuis Dinosaurus
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       4. Prehistoric Dinosaur Footer
+       ======================================================================== -->
+  <footer class="dino-footer">
+    <div class="footer-dino-wrap">
+      <div style="font-size: 1.8rem;">🦕 🌿 🦖 🥚 🌋</div>
+      <p class="footer-quote">"Belajar Bahasa Mandarin selangkah demi selangkah seperti jejak kaki dinosaurus yang kokoh!"</p>
+      <p>© 2026 Dino Mandarin Adventure • Kurikulum Han Yu 1 s/d Han Yu 12 • HanziWriter Engine</p>
+    </div>
+  </footer>
+
+  <!-- Scripts Execution Order -->
+  <script src="js/data.js"></script>
+  <script src="js/audio-synth.js"></script>
+  <script src="js/stroke-writer.js"></script>
+  <script src="js/match-game.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
