@@ -1,0 +1,9 @@
+# OS & Editor generated files
+.DS_Store
+Thumbs.db
+*.tmp
+.vscode/
+.idea/
+
+# Optional: Uncheck if you want to keep repo lightweight without uploading large PDFs (~175MB)
+# *.pdf
